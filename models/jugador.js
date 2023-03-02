@@ -22,10 +22,15 @@ const jugadorSchema = Schema({
     required: true,
     default: "USER_ROLE",
   },
+  estado: {
+    type: String,
+    required: true,
+    default: "A",
+  },
 });
 
 jugadorSchema.method("toJSON", function () {
-  const { __v, _id, ...object } = this.toObject();
+  const { __v, _id, password, ...object } = this.toObject();
   object.id = _id;
   return object;
 });

@@ -5,11 +5,17 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
 const { validarCampos } = require("../middlewares/validar-campos");
-const { getJugadores, crearJugador } = require("../controllers/jugadores");
+const {
+  getJugadores,
+  crearJugador,
+  acualizarJugador,
+  borrarJugador,
+} = require("../controllers/jugadores");
 
 const router = Router();
 
 router.get("/", getJugadores);
+
 router.post(
   "/",
   [
@@ -20,5 +26,17 @@ router.post(
   ],
   crearJugador
 );
+
+router.put(
+  "/:id",
+  [
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("role", "El rol de usuario es obligatorio").not().isEmpty(),
+    validarCampos,
+  ],
+  acualizarJugador
+);
+
+router.delete("/:id", borrarJugador);
 
 module.exports = router;
