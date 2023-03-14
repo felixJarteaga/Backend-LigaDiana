@@ -12,9 +12,11 @@ const {
   borrarJugador,
 } = require("../controllers/jugadores");
 
+const { validatJWT } = require("../middlewares/validar-jwt");
+
 const router = Router();
 
-router.get("/", getJugadores);
+router.get("/", validatJWT, getJugadores);
 
 router.post(
   "/",
@@ -30,6 +32,7 @@ router.post(
 router.put(
   "/:id",
   [
+    validatJWT,
     check("nombre", "El nombre es obligatorio").not().isEmpty(),
     check("role", "El rol de usuario es obligatorio").not().isEmpty(),
     validarCampos,
@@ -37,6 +40,6 @@ router.put(
   acualizarJugador
 );
 
-router.delete("/:id", borrarJugador);
+router.delete("/:id", validatJWT, borrarJugador);
 
 module.exports = router;
